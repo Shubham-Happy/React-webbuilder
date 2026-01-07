@@ -131,9 +131,9 @@ export const generateCSSExport = (elements: BuilderElement[]): string => {
 }
 
 body {
-  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #ffffff;
-  color: #283618;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #0a0a0f;
+  color: #f8fafc;
   line-height: 1.5;
 }
 
