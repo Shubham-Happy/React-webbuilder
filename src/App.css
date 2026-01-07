@@ -1,0 +1,29 @@
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: var(--color-bg-primary);
+    overflow: hidden;
+}
+
+.app-main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Drag Overlay */
+.drag-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-accent-gradient);
+    border-radius: var(--radius-md);
+    color: white;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    pointer-events: none;
+    opacity: 0.9;
+}

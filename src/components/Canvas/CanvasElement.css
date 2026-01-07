@@ -1,0 +1,137 @@
+.canvas-element {
+    position: relative;
+    cursor: pointer;
+    transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.canvas-element:not(.preview) {
+    outline: 1px dashed transparent;
+    outline-offset: -1px;
+}
+
+.canvas-element.hovered:not(.preview):not(.selected) {
+    outline-color: var(--color-accent-secondary);
+}
+
+.canvas-element.selected:not(.preview) {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: -2px;
+}
+
+.canvas-element.dragging {
+    opacity: 0.5;
+    transform: scale(0.98);
+}
+
+.canvas-element.drop-target:not(.preview) {
+    background-color: rgba(99, 102, 241, 0.1) !important;
+    outline: 2px dashed var(--color-accent-primary);
+}
+
+/* Element Label */
+.element-label {
+    position: absolute;
+    top: -22px;
+    left: -2px;
+    padding: 2px 8px;
+    background: var(--color-accent-primary);
+    color: white;
+    font-size: 10px;
+    font-weight: var(--font-weight-medium);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Placeholder styles */
+.image-placeholder,
+.video-placeholder,
+.embed-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-tertiary);
+    border: 2px dashed var(--color-border);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    min-height: 150px;
+}
+
+.image-placeholder {
+    min-height: 200px;
+}
+
+.video-placeholder {
+    min-height: 250px;
+}
+
+.embed-placeholder {
+    min-height: 300px;
+}
+
+/* Empty container */
+.empty-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    margin: var(--space-2);
+}
+
+/* Loading 3D */
+.loading-3d {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 300px;
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-muted);
+}
+
+/* Container types specific styles */
+.canvas-element.container,
+.canvas-element.section,
+.canvas-element.flexbox,
+.canvas-element.grid,
+.canvas-element.form {
+    min-height: 60px;
+}
+
+.canvas-element.scene3d {
+    min-height: 300px;
+}
+
+/* Specific element types */
+.canvas-element h2,
+.canvas-element p,
+.canvas-element button,
+.canvas-element a,
+.canvas-element input,
+.canvas-element textarea {
+    margin: 0;
+}
+
+.canvas-element button {
+    cursor: pointer;
+}
+
+.canvas-element button:hover {
+    filter: brightness(1.1);
+}
+
+.canvas-element hr {
+    border: none;
+}
+
+.canvas-element img,
+.canvas-element video,
+.canvas-element iframe {
+    display: block;
+    max-width: 100%;
+}
