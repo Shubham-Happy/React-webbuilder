@@ -154,7 +154,7 @@ const createElement = (type: ElementType): BuilderElement => {
         type,
         name: definition?.label || type,
         content: definition?.defaultContent,
-        styles: { ...definition?.defaultStyles } || {},
+        styles: { ...definition?.defaultStyles },
         props3d: definition?.default3DProps ? { ...definition.default3DProps } : undefined,
         children: [],
         isLocked: false,

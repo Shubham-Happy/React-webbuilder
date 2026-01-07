@@ -19,7 +19,7 @@ function DraggableComponent({ type, label, iconName }: DraggableComponentProps) 
   });
 
   // Get icon component dynamically
-  const IconComponent = (Icons as Record<string, React.ComponentType<{ size?: number }>>)[iconName] || Icons.Square;
+  const IconComponent = (Icons as unknown as Record<string, React.ComponentType<{ size?: number }>>)[iconName] || Icons.Square;
 
   return (
     <div
@@ -55,7 +55,7 @@ function ComponentsSidebar() {
       <div className="sidebar-content">
         {categories.map(category => {
           const components = COMPONENT_DEFINITIONS.filter(c => c.category === category.key);
-          const CategoryIcon = (Icons as Record<string, React.ComponentType<{ size?: number }>>)[category.icon] || Icons.Square;
+          const CategoryIcon = (Icons as unknown as Record<string, React.ComponentType<{ size?: number }>>)[category.icon] || Icons.Square;
           
           return (
             <div key={category.key} className="component-category">

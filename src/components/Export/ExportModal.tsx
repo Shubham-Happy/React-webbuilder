@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { X, Copy, Download, FileCode, FileJson, Check } from 'lucide-react';
-import Editor from '@monaco-editor/react';
+
 import { useBuilderStore } from '../../store/useBuilderStore';
 import { generateHTMLExport, generateCSSExport } from '../../utils/exportHTML';
 import { generateReactExport } from '../../utils/exportReact';
@@ -93,21 +93,14 @@ function ExportModal({ onClose }: ExportModalProps) {
         </div>
 
         <div className="code-preview">
-          <Editor
-            height="100%"
-            language={format === 'html' ? 'html' : 'typescript'}
-            value={exportedCode}
-            theme="vs-dark"
-            options={{
-              readOnly: true,
-              minimap: { enabled: false },
-              fontSize: 13,
-              lineNumbers: 'on',
-              scrollBeyondLastLine: false,
-              wordWrap: 'on',
-              padding: { top: 16, bottom: 16 }
-            }}
-          />
+            <div className="native-editor">
+              <textarea
+                readOnly
+                value={exportedCode}
+                className="code-content"
+                spellCheck={false}
+              />
+            </div>
         </div>
 
         <div className="modal-actions">

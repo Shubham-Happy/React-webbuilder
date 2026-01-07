@@ -144,9 +144,9 @@ function Scene3D() {
 ${imports}
 
 const globalStyles: React.CSSProperties = {
-  fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-  backgroundColor: '#0a0a0f',
-  color: '#f8fafc',
+  fontFamily: "'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+  backgroundColor: '#ffffff',
+  color: '#283618',
   minHeight: '100vh',
 };
 ${scene3DComponent}

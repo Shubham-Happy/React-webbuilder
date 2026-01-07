@@ -11,7 +11,7 @@ interface CanvasElementProps {
 }
 
 function CanvasElement({ element }: CanvasElementProps) {
-  const elementRef = useRef<HTMLDivElement>(null);
+  const elementRef = useRef<HTMLDivElement | null>(null);
   
   const { 
     selectedId, 
