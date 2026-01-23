@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useId } from 'react';
 import { Trash2, Copy, Lock, Unlock, Eye, EyeOff } from 'lucide-react';
+import { useShallow } from 'zustand/react/shallow';
 import { useBuilderStore } from '../../store/useBuilderStore';
 import { ElementStyles } from '../../types';
 import './PropertiesPanel.css';
@@ -8,18 +9,26 @@ type TabType = 'style' | 'layout' | 'content';
 
 function PropertiesPanel() {
   const [activeTab, setActiveTab] = useState<TabType>('style');
+  const idPrefix = useId();
+
+  // Select properties individually
+  const selectedIds = useBuilderStore(useShallow(state => state.selectedIds));
   
-  const { 
-    selectedId, 
-    getElementById, 
-    updateElement,
-    deleteElement,
-    duplicateElement 
-  } = useBuilderStore();
+  // existing actions
+  const updateElement = useBuilderStore(state => state.updateElement);
+  const deleteElement = useBuilderStore(state => state.deleteElement);
+  const duplicateElement = useBuilderStore(state => state.duplicateElement);
 
-  const element = selectedId ? getElementById(selectedId) : null;
+  // Derive element from the first selected ID if singular
+  const element = useBuilderStore(
+    useShallow(state => 
+      state.selectedIds.length === 1 
+        ? state.getElementById(state.selectedIds[0])
+        : null
+    )
+  );
 
-  if (!element) {
+  if (selectedIds.length === 0) {
     return (
       <aside className="properties-panel">
         <div className="properties-empty">
@@ -28,6 +37,26 @@ function PropertiesPanel() {
       </aside>
     );
   }
+
+  if (selectedIds.length > 1) {
+    return (
+        <aside className="properties-panel">
+          <div className="properties-empty">
+            <p>{selectedIds.length} elements selected</p>
+            <button 
+                className="action-btn delete"
+                onClick={() => selectedIds.forEach(id => deleteElement(id))}
+                title="Delete All"
+                style={{ marginTop: '1rem', padding: '0.5rem 1rem', height: 'auto' }}
+            >
+                <Trash2 size={16} style={{ marginRight: '8px' }}/> Delete All
+            </button>
+          </div>
+        </aside>
+      );
+  }
+
+  if (!element) return null; // Should not happen if length is 1 and id exists
 
   const handleStyleChange = (property: keyof ElementStyles, value: string) => {
     updateElement(element.id, {
@@ -116,7 +145,7 @@ function PropertiesPanel() {
             <div className="property-group">
               <h4>Colors</h4>
               <div className="property-row">
-                <label>Text Color</label>
+                <label htmlFor={`${idPrefix}-color`}>Text Color</label>
                 <div className="color-input-wrapper">
                   <input
                     type="color"
@@ -124,6 +153,7 @@ function PropertiesPanel() {
                     onChange={(e) => handleStyleChange('color', e.target.value)}
                   />
                   <input
+                    id={`${idPrefix}-color`}
                     type="text"
                     value={element.styles.color || ''}
                     onChange={(e) => handleStyleChange('color', e.target.value)}

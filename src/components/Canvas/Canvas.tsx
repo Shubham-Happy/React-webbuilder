@@ -1,17 +1,16 @@
 import { useDroppable } from '@dnd-kit/core';
+import { useShallow } from 'zustand/react/shallow';
 import { useBuilderStore } from '../../store/useBuilderStore';
 import { VIEWPORT_SIZES } from '../../types';
 import CanvasElement from './CanvasElement';
 import './Canvas.css';
 
 function Canvas() {
-  const { 
-    elements, 
-    viewport, 
-    zoom, 
-    isPreviewMode,
-    setSelectedId 
-  } = useBuilderStore();
+  const elements = useBuilderStore(useShallow(state => state.elements));
+  const viewport = useBuilderStore(state => state.viewport);
+  const zoom = useBuilderStore(state => state.zoom);
+  const isPreviewMode = useBuilderStore(state => state.isPreviewMode);
+  const setSelectedId = useBuilderStore(state => state.setSelectedId);
 
   const { setNodeRef, isOver } = useDroppable({
     id: 'canvas'

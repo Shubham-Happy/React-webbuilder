@@ -1,6 +1,8 @@
 import { useDraggable } from '@dnd-kit/core';
 import * as Icons from 'lucide-react';
 import { COMPONENT_DEFINITIONS, ElementType } from '../../types';
+import PagesPanel from '../Pages/PagesPanel';
+import LayersPanel from '../Layers/LayersPanel';
 import './ComponentsSidebar.css';
 
 interface DraggableComponentProps {
@@ -27,6 +29,9 @@ function DraggableComponent({ type, label, iconName }: DraggableComponentProps) 
       {...listeners}
       {...attributes}
       className={`component-item ${isDragging ? 'dragging' : ''}`}
+      role="button"
+      tabIndex={0}
+      aria-label={`Add ${label} component`}
     >
       <div className="component-icon">
         <IconComponent size={20} />
@@ -48,14 +53,24 @@ function ComponentsSidebar() {
   return (
     <aside className="components-sidebar">
       <div className="sidebar-header">
-        <h2>Components</h2>
-        <p>Drag to canvas</p>
+        <h2>WebCraft Studio</h2>
+        <p>Build your dream website</p>
       </div>
       
+      <PagesPanel />
+      <LayersPanel />
+      
       <div className="sidebar-content">
+        <div className="sidebar-section-title">
+          <Icons.Puzzle size={14} />
+          <span>Components</span>
+        </div>
+        
         {categories.map(category => {
           const components = COMPONENT_DEFINITIONS.filter(c => c.category === category.key);
           const CategoryIcon = (Icons as unknown as Record<string, React.ComponentType<{ size?: number }>>)[category.icon] || Icons.Square;
+          
+          if (components.length === 0) return null;
           
           return (
             <div key={category.key} className="component-category">
@@ -82,3 +97,4 @@ function ComponentsSidebar() {
 }
 
 export default ComponentsSidebar;
+

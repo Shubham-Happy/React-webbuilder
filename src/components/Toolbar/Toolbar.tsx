@@ -9,7 +9,9 @@ import {
   Smartphone,
   ZoomIn,
   ZoomOut,
-  Sparkles
+  Sparkles,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { useBuilderStore } from '../../store/useBuilderStore';
 import { ViewportSize } from '../../types';
@@ -20,18 +22,19 @@ interface ToolbarProps {
 }
 
 function Toolbar({ onExport }: ToolbarProps) {
-  const { 
-    viewport, 
-    setViewport, 
-    zoom, 
-    setZoom,
-    isPreviewMode, 
-    setPreviewMode,
-    undo,
-    redo,
-    history,
-    historyIndex
-  } = useBuilderStore();
+  const viewport = useBuilderStore(state => state.viewport);
+  const zoom = useBuilderStore(state => state.zoom);
+  const isPreviewMode = useBuilderStore(state => state.isPreviewMode);
+  const isDarkMode = useBuilderStore(state => state.isDarkMode);
+  const historyIndex = useBuilderStore(state => state.historyIndex);
+  const historyLength = useBuilderStore(state => state.history.length);
+
+  const setViewport = useBuilderStore(state => state.setViewport);
+  const setZoom = useBuilderStore(state => state.setZoom);
+  const setPreviewMode = useBuilderStore(state => state.setPreviewMode);
+  const toggleTheme = useBuilderStore(state => state.toggleTheme);
+  const undo = useBuilderStore(state => state.undo);
+  const redo = useBuilderStore(state => state.redo);
 
   const viewportOptions: { value: ViewportSize; icon: typeof Monitor; label: string }[] = [
     { value: 'desktop', icon: Monitor, label: 'Desktop' },
@@ -40,7 +43,7 @@ function Toolbar({ onExport }: ToolbarProps) {
   ];
 
   const canUndo = historyIndex > 0;
-  const canRedo = historyIndex < history.length - 1;
+  const canRedo = historyIndex < historyLength - 1;
 
   return (
     <header className="toolbar">
@@ -110,6 +113,14 @@ function Toolbar({ onExport }: ToolbarProps) {
       </div>
 
       <div className="toolbar-right">
+        <button
+          className="toolbar-btn"
+          onClick={toggleTheme}
+          title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        >
+          {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+
         <button 
           className={`toolbar-btn preview-btn ${isPreviewMode ? 'active' : ''}`}
           onClick={() => setPreviewMode(!isPreviewMode)}

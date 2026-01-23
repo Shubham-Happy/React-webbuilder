@@ -1,64 +1,52 @@
-import { useState, useCallback } from 'react';
-import { DndContext, DragEndEvent, DragStartEvent, DragOverlay, pointerWithin } from '@dnd-kit/core';
+import { useState } from 'react';
+import { 
+  DndContext, 
+  DragOverlay, 
+  pointerWithin,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  KeyboardSensor
+} from '@dnd-kit/core';
 import { useBuilderStore } from './store/useBuilderStore';
+import { useBuilderDragDrop } from './hooks/useBuilderDragDrop';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import Toolbar from './components/Toolbar/Toolbar';
 import ComponentsSidebar from './components/Sidebar/ComponentsSidebar';
 import Canvas from './components/Canvas/Canvas';
 import PropertiesPanel from './components/Properties/PropertiesPanel';
 import ExportModal from './components/Export/ExportModal';
-import { ElementType } from './types';
+import './styles/components.css';
 import './App.css';
 
 function App() {
   const [showExportModal, setShowExportModal] = useState(false);
-  const [activeDragType, setActiveDragType] = useState<ElementType | null>(null);
+  
+  const { isPreviewMode } = useBuilderStore();
+  
+  useKeyboardShortcuts();
   
   const { 
-    addElement, 
-    moveElement,
-    isPreviewMode 
-  } = useBuilderStore();
+    activeDragType, 
+    handleDragStart, 
+    handleDragEnd 
+  } = useBuilderDragDrop();
 
-  const handleDragStart = useCallback((event: DragStartEvent) => {
-    const { active } = event;
-    if (active.data.current?.isNew) {
-      setActiveDragType(active.data.current.type);
-    }
-  }, []);
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor)
+  );
 
-  const handleDragEnd = useCallback((event: DragEndEvent) => {
-    const { active, over } = event;
-    
-    setActiveDragType(null);
-    
-    if (!over) return;
-    
-    const isNew = active.data.current?.isNew;
-    const type = active.data.current?.type as ElementType;
-    
-    if (isNew && type) {
-      // Adding new element
-      const parentId = over.id === 'canvas' ? null : String(over.id);
-      addElement(type, parentId);
-    } else if (active.data.current?.elementId) {
-      // Moving existing element
-      const dragId = active.data.current.elementId;
-      const targetId = over.id === 'canvas' ? null : String(over.id);
-      const position = over.data.current?.position || 'inside';
-      
-      if (dragId !== targetId) {
-        moveElement(dragId, targetId, position);
-      }
-    }
-  }, [addElement, moveElement]);
+  const isDarkMode = useBuilderStore(state => state.isDarkMode);
 
   return (
     <DndContext
+      sensors={sensors}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       collisionDetection={pointerWithin}
     >
-      <div className="app">
+      <div className={`app ${isDarkMode ? 'dark-mode' : ''}`}>
         <Toolbar onExport={() => setShowExportModal(true)} />
         
         <div className="app-main">

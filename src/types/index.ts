@@ -1,30 +1,46 @@
 // Element Types for the Website Builder
 
-export type ElementType =
+export enum ElementTypes {
     // Layout
-    | 'container'
-    | 'section'
-    | 'flexbox'
-    | 'grid'
+    Container = 'container',
+    Section = 'section',
+    Flexbox = 'flexbox',
+    Grid = 'grid',
     // Basic
-    | 'heading'
-    | 'text'
-    | 'button'
-    | 'image'
-    | 'link'
-    | 'divider'
+    Heading = 'heading',
+    Text = 'text',
+    Button = 'button',
+    Image = 'image',
+    Link = 'link',
+    Divider = 'divider',
+    Spacer = 'spacer',
+    Icon = 'icon',
     // Media
-    | 'video'
-    | 'embed'
+    Video = 'video',
+    Embed = 'embed',
     // 3D
-    | 'scene3d'
-    | 'box3d'
-    | 'sphere3d'
-    | 'torus3d'
+    Scene3D = 'scene3d',
+    Box3D = 'box3d',
+    Sphere3D = 'sphere3d',
+    Torus3D = 'torus3d',
     // Forms
-    | 'input'
-    | 'textarea'
-    | 'form';
+    Input = 'input',
+    Textarea = 'textarea',
+    Form = 'form',
+    // Professional Components
+    Navbar = 'navbar',
+    Hero = 'hero',
+    Card = 'card',
+    Testimonial = 'testimonial',
+    Pricing = 'pricing',
+    Footer = 'footer',
+    SocialLinks = 'sociallinks',
+    Feature = 'feature',
+    CTA = 'cta',
+    Gallery = 'gallery'
+}
+
+export type ElementType = `${ElementTypes}`;
 
 export interface ElementStyles {
     // Layout
@@ -88,12 +104,18 @@ export interface ElementStyles {
     borderStyle?: string;
     borderColor?: string;
     borderRadius?: string;
+    borderTop?: string;
+    borderBottom?: string;
+    borderLeft?: string;
+    borderRight?: string;
 
     // Effects
     boxShadow?: string;
     opacity?: string;
     transform?: string;
     transition?: string;
+    backdropFilter?: string;
+    filter?: string;
 
     // Overflow
     overflow?: string;
@@ -475,6 +497,176 @@ export const COMPONENT_DEFINITIONS: ComponentDefinition[] = [
             padding: '24px',
             backgroundColor: '#12121a',
             borderRadius: '12px'
+        }
+    },
+
+    // Professional Components - New Category
+    {
+        type: 'navbar',
+        label: 'Navbar',
+        icon: 'Menu',
+        category: 'layout',
+        defaultStyles: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+            padding: '16px 32px',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            backdropFilter: 'blur(10px)'
+        },
+        defaultContent: 'Brand'
+    },
+    {
+        type: 'hero',
+        label: 'Hero Section',
+        icon: 'Sparkles',
+        category: 'layout',
+        defaultStyles: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            minHeight: '600px',
+            padding: '80px 40px',
+            backgroundImage: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            textAlign: 'center'
+        },
+        defaultContent: 'Welcome to Your Website'
+    },
+    {
+        type: 'card',
+        label: 'Card',
+        icon: 'CreditCard',
+        category: 'basic',
+        defaultStyles: {
+            display: 'flex',
+            flexDirection: 'column',
+            width: '300px',
+            padding: '24px',
+            backgroundColor: '#1a1a24',
+            borderRadius: '16px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
+        },
+        defaultContent: 'Card Title'
+    },
+    {
+        type: 'feature',
+        label: 'Feature',
+        icon: 'Star',
+        category: 'basic',
+        defaultStyles: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '16px',
+            padding: '32px',
+            textAlign: 'center'
+        },
+        defaultContent: 'Feature Title'
+    },
+    {
+        type: 'cta',
+        label: 'CTA Section',
+        icon: 'Zap',
+        category: 'layout',
+        defaultStyles: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '24px',
+            width: '100%',
+            padding: '80px 40px',
+            backgroundColor: '#6366f1',
+            textAlign: 'center'
+        },
+        defaultContent: 'Ready to Get Started?'
+    },
+    {
+        type: 'testimonial',
+        label: 'Testimonial',
+        icon: 'Quote',
+        category: 'basic',
+        defaultStyles: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+            padding: '32px',
+            backgroundColor: '#1a1a24',
+            borderRadius: '16px',
+            borderLeft: '4px solid #6366f1'
+        },
+        defaultContent: '"This product changed my life!"'
+    },
+    {
+        type: 'pricing',
+        label: 'Pricing Card',
+        icon: 'DollarSign',
+        category: 'basic',
+        defaultStyles: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '24px',
+            width: '320px',
+            padding: '40px 32px',
+            backgroundColor: '#1a1a24',
+            borderRadius: '20px',
+            border: '1px solid rgba(255, 255, 255, 0.1)'
+        },
+        defaultContent: 'Pro Plan'
+    },
+    {
+        type: 'footer',
+        label: 'Footer',
+        icon: 'Footprints',
+        category: 'layout',
+        defaultStyles: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            width: '100%',
+            padding: '60px 40px 40px',
+            backgroundColor: '#0f0f13',
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+        },
+        defaultContent: '© 2024 Your Company'
+    },
+    {
+        type: 'spacer',
+        label: 'Spacer',
+        icon: 'MoveVertical',
+        category: 'basic',
+        defaultStyles: {
+            width: '100%',
+            height: '60px'
+        }
+    },
+    {
+        type: 'gallery',
+        label: 'Gallery',
+        icon: 'LayoutGrid',
+        category: 'media',
+        defaultStyles: {
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '16px',
+            width: '100%',
+            padding: '20px'
+        }
+    },
+    {
+        type: 'sociallinks',
+        label: 'Social Links',
+        icon: 'Share2',
+        category: 'basic',
+        defaultStyles: {
+            display: 'flex',
+            gap: '16px',
+            alignItems: 'center'
         }
     }
 ];
