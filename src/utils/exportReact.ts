@@ -2,163 +2,163 @@ import { BuilderElement, ElementStyles } from '../types';
 
 // Convert styles object to inline style object string
 const stylesToInline = (styles: ElementStyles): string => {
-    const entries = Object.entries(styles)
-        .filter(([_, value]) => value !== undefined && value !== '');
+  const entries = Object.entries(styles)
+    .filter(([_, value]) => value !== undefined && value !== '');
 
-    if (entries.length === 0) return '';
+  if (entries.length === 0) return '';
 
-    return entries
-        .map(([key, value]) => `${key}: '${value}'`)
-        .join(', ');
+  return entries
+    .map(([key, value]) => `${key}: '${value}'`)
+    .join(', ');
 };
 
 // Generate React component for an element
 const elementToReact = (element: BuilderElement, indent: number = 6): string => {
-    const spaces = ' '.repeat(indent);
-    const styleStr = stylesToInline(element.styles);
-    const styleAttr = styleStr ? ` style={{ ${styleStr} }}` : '';
+  const spaces = ' '.repeat(indent);
+  const styleStr = stylesToInline(element.styles);
+  const styleAttr = styleStr ? ` style={{ ${styleStr} }}` : '';
 
-    switch (element.type) {
-        case 'heading':
-            return `${spaces}<h2${styleAttr}>${element.content || 'Heading'}</h2>`;
+  switch (element.type) {
+    case 'heading':
+      return `${spaces}<h2${styleAttr}>${element.content || 'Heading'}</h2>`;
 
-        case 'text':
-            return `${spaces}<p${styleAttr}>${element.content || 'Text content'}</p>`;
+    case 'text':
+      return `${spaces}<p${styleAttr}>${element.content || 'Text content'}</p>`;
 
-        case 'button':
-            return `${spaces}<button className="btn btn-primary"${styleAttr}>${element.content || 'Button'}</button>`;
+    case 'button':
+      return `${spaces}<button className="btn btn-primary"${styleAttr}>${element.content || 'Button'}</button>`;
 
-        case 'image':
-            return `${spaces}<img${styleAttr} src="${element.src || 'https://images.unsplash.com/photo-1557683316-973673baf926?w=800'}" alt="${element.name}" loading="lazy" />`;
+    case 'image':
+      return `${spaces}<img${styleAttr} src="${element.src || 'https://images.unsplash.com/photo-1557683316-973673baf926?w=800'}" alt="${element.name}" loading="lazy" />`;
 
-        case 'link':
-            return `${spaces}<a${styleAttr} href="${element.href || '#'}">${element.content || 'Link'}</a>`;
+    case 'link':
+      return `${spaces}<a${styleAttr} href="${element.href || '#'}">${element.content || 'Link'}</a>`;
 
-        case 'divider':
-            return `${spaces}<hr${styleAttr} />`;
+    case 'divider':
+      return `${spaces}<hr${styleAttr} />`;
 
-        case 'spacer':
-            return `${spaces}<div${styleAttr} aria-hidden="true" />`;
+    case 'spacer':
+      return `${spaces}<div${styleAttr} aria-hidden="true" />`;
 
-        case 'video':
-            return `${spaces}<video${styleAttr} src="${element.src || ''}" controls />`;
+    case 'video':
+      return `${spaces}<video${styleAttr} src="${element.src || ''}" controls />`;
 
-        case 'embed':
-            return `${spaces}<iframe${styleAttr} src="${element.src || ''}" title="${element.name}" loading="lazy" />`;
+    case 'embed':
+      return `${spaces}<iframe${styleAttr} src="${element.src || ''}" title="${element.name}" loading="lazy" />`;
 
-        case 'input':
-            return `${spaces}<input className="form-input"${styleAttr} type="text" placeholder="${element.placeholder || 'Enter text...'}" />`;
+    case 'input':
+      return `${spaces}<input className="form-input"${styleAttr} type="text" placeholder="${element.placeholder || 'Enter text...'}" />`;
 
-        case 'textarea':
-            return `${spaces}<textarea className="form-textarea"${styleAttr} placeholder="${element.placeholder || 'Enter text...'}" rows={4} />`;
+    case 'textarea':
+      return `${spaces}<textarea className="form-textarea"${styleAttr} placeholder="${element.placeholder || 'Enter text...'}" rows={4} />`;
 
-        case 'navbar':
-            return `${spaces}<Navbar brand="${element.content || 'Brand'}" />`;
+    case 'navbar':
+      return `${spaces}<Navbar brand="${element.content || 'Brand'}" />`;
 
-        case 'hero':
-            return `${spaces}<Hero title="${element.content || 'Welcome to Your Website'}" />`;
+    case 'hero':
+      return `${spaces}<Hero title="${element.content || 'Welcome to Your Website'}" />`;
 
-        case 'card':
-            return `${spaces}<Card title="${element.content || 'Card Title'}" />`;
+    case 'card':
+      return `${spaces}<Card title="${element.content || 'Card Title'}" />`;
 
-        case 'feature':
-            return `${spaces}<Feature title="${element.content || 'Feature Title'}" />`;
+    case 'feature':
+      return `${spaces}<Feature title="${element.content || 'Feature Title'}" />`;
 
-        case 'testimonial':
-            return `${spaces}<Testimonial quote="${element.content || '"This product changed my life!"'}" />`;
+    case 'testimonial':
+      return `${spaces}<Testimonial quote="${element.content || '"This product changed my life!"'}" />`;
 
-        case 'pricing':
-            return `${spaces}<PricingCard plan="${element.content || 'Professional'}" />`;
+    case 'pricing':
+      return `${spaces}<PricingCard plan="${element.content || 'Professional'}" />`;
 
-        case 'cta':
-            return `${spaces}<CTASection title="${element.content || 'Ready to Get Started?'}" />`;
+    case 'cta':
+      return `${spaces}<CTASection title="${element.content || 'Ready to Get Started?'}" />`;
 
-        case 'footer':
-            return `${spaces}<Footer copyright="${element.content || '© 2024 Your Company'}" />`;
+    case 'footer':
+      return `${spaces}<Footer copyright="${element.content || '© 2024 Your Company'}" />`;
 
-        case 'gallery':
-            return `${spaces}<Gallery />`;
+    case 'gallery':
+      return `${spaces}<Gallery />`;
 
-        case 'scene3d':
-            return `${spaces}<Scene3D />`;
+    case 'scene3d':
+      return `${spaces}<Scene3D />`;
 
-        case 'container':
-        case 'flexbox':
-        case 'grid': {
-            const childrenJSX = element.children
-                .map(child => elementToReact(child, indent + 2))
-                .join('\n');
+    case 'container':
+    case 'flexbox':
+    case 'grid': {
+      const childrenJSX = element.children
+        .map(child => elementToReact(child, indent + 2))
+        .join('\n');
 
-            if (childrenJSX) {
-                return `${spaces}<div${styleAttr}>
+      if (childrenJSX) {
+        return `${spaces}<div${styleAttr}>
 ${childrenJSX}
 ${spaces}</div>`;
-            }
-            return `${spaces}<div${styleAttr} />`;
-        }
+      }
+      return `${spaces}<div${styleAttr} />`;
+    }
 
-        case 'section': {
-            const childrenJSX = element.children
-                .map(child => elementToReact(child, indent + 2))
-                .join('\n');
+    case 'section': {
+      const childrenJSX = element.children
+        .map(child => elementToReact(child, indent + 2))
+        .join('\n');
 
-            if (childrenJSX) {
-                return `${spaces}<section${styleAttr}>
+      if (childrenJSX) {
+        return `${spaces}<section${styleAttr}>
 ${childrenJSX}
 ${spaces}</section>`;
-            }
-            return `${spaces}<section${styleAttr} />`;
-        }
+      }
+      return `${spaces}<section${styleAttr} />`;
+    }
 
-        case 'form': {
-            const childrenJSX = element.children
-                .map(child => elementToReact(child, indent + 2))
-                .join('\n');
+    case 'form': {
+      const childrenJSX = element.children
+        .map(child => elementToReact(child, indent + 2))
+        .join('\n');
 
-            if (childrenJSX) {
-                return `${spaces}<form${styleAttr} onSubmit={(e) => e.preventDefault()}>
+      if (childrenJSX) {
+        return `${spaces}<form${styleAttr} onSubmit={(e) => e.preventDefault()}>
 ${childrenJSX}
 ${spaces}</form>`;
-            }
-            return `${spaces}<form${styleAttr} />`;
-        }
-
-        default:
-            return `${spaces}<div${styleAttr}>{/* ${element.type} */}</div>`;
+      }
+      return `${spaces}<form${styleAttr} />`;
     }
+
+    default:
+      return `${spaces}<div${styleAttr}>{/* ${element.type} */}</div>`;
+  }
 };
 
 // Check if special components are used
 const hasComponent = (elements: BuilderElement[], type: string): boolean => {
-    for (const element of elements) {
-        if (element.type === type) return true;
-        if (element.children.length > 0 && hasComponent(element.children, type)) return true;
-    }
-    return false;
+  for (const element of elements) {
+    if (element.type === type) return true;
+    if (element.children.length > 0 && hasComponent(element.children, type)) return true;
+  }
+  return false;
 };
 
 export const generateReactExport = (elements: BuilderElement[]): string => {
-    const use3D = hasComponent(elements, 'scene3d');
-    const useNavbar = hasComponent(elements, 'navbar');
-    const useHero = hasComponent(elements, 'hero');
-    const useCard = hasComponent(elements, 'card');
-    const useFeature = hasComponent(elements, 'feature');
-    const useTestimonial = hasComponent(elements, 'testimonial');
-    const usePricing = hasComponent(elements, 'pricing');
-    const useCTA = hasComponent(elements, 'cta');
-    const useFooter = hasComponent(elements, 'footer');
-    const useGallery = hasComponent(elements, 'gallery');
+  const use3D = hasComponent(elements, 'scene3d');
+  const useNavbar = hasComponent(elements, 'navbar');
+  const useHero = hasComponent(elements, 'hero');
+  const useCard = hasComponent(elements, 'card');
+  const useFeature = hasComponent(elements, 'feature');
+  const useTestimonial = hasComponent(elements, 'testimonial');
+  const usePricing = hasComponent(elements, 'pricing');
+  const useCTA = hasComponent(elements, 'cta');
+  const useFooter = hasComponent(elements, 'footer');
+  const useGallery = hasComponent(elements, 'gallery');
 
-    const imports = use3D
-        ? `import { Canvas } from '@react-three/fiber';
+  const imports = use3D
+    ? `import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';`
-        : '';
+    : '';
 
-    // Generate component definitions
-    let components = '';
+  // Generate component definitions
+  let components = '';
 
-    if (useNavbar) {
-        components += `
+  if (useNavbar) {
+    components += `
 // Professional Navbar Component
 function Navbar({ brand }: { brand: string }) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -184,10 +184,10 @@ function Navbar({ brand }: { brand: string }) {
   );
 }
 `;
-    }
+  }
 
-    if (useHero) {
-        components += `
+  if (useHero) {
+    components += `
 // Hero Section Component
 function Hero({ title }: { title: string }) {
   return (
@@ -206,10 +206,10 @@ function Hero({ title }: { title: string }) {
   );
 }
 `;
-    }
+  }
 
-    if (useCard) {
-        components += `
+  if (useCard) {
+    components += `
 // Card Component
 function Card({ title }: { title: string }) {
   return (
@@ -226,10 +226,10 @@ function Card({ title }: { title: string }) {
   );
 }
 `;
-    }
+  }
 
-    if (useFeature) {
-        components += `
+  if (useFeature) {
+    components += `
 // Feature Component
 function Feature({ title }: { title: string }) {
   return (
@@ -243,10 +243,10 @@ function Feature({ title }: { title: string }) {
   );
 }
 `;
-    }
+  }
 
-    if (useTestimonial) {
-        components += `
+  if (useTestimonial) {
+    components += `
 // Testimonial Component
 function Testimonial({ quote }: { quote: string }) {
   return (
@@ -267,10 +267,10 @@ function Testimonial({ quote }: { quote: string }) {
   );
 }
 `;
-    }
+  }
 
-    if (usePricing) {
-        components += `
+  if (usePricing) {
+    components += `
 // Pricing Card Component
 function PricingCard({ plan }: { plan: string }) {
   return (
@@ -294,10 +294,10 @@ function PricingCard({ plan }: { plan: string }) {
   );
 }
 `;
-    }
+  }
 
-    if (useCTA) {
-        components += `
+  if (useCTA) {
+    components += `
 // CTA Section Component
 function CTASection({ title }: { title: string }) {
   return (
@@ -316,10 +316,10 @@ function CTASection({ title }: { title: string }) {
   );
 }
 `;
-    }
+  }
 
-    if (useFooter) {
-        components += `
+  if (useFooter) {
+    components += `
 // Footer Component
 function Footer({ copyright }: { copyright: string }) {
   return (
@@ -351,10 +351,10 @@ function Footer({ copyright }: { copyright: string }) {
   );
 }
 `;
-    }
+  }
 
-    if (useGallery) {
-        components += `
+  if (useGallery) {
+    components += `
 // Gallery Component
 function Gallery() {
   const images = [
@@ -374,10 +374,10 @@ function Gallery() {
   );
 }
 `;
-    }
+  }
 
-    if (use3D) {
-        components += `
+  if (use3D) {
+    components += `
 // 3D Scene Component
 function Scene3D() {
   return (
@@ -396,22 +396,22 @@ function Scene3D() {
   );
 }
 `;
-    }
+  }
 
-    const content = elements
-        .map(element => elementToReact(element))
-        .join('\n');
+  const content = elements
+    .map(element => elementToReact(element))
+    .join('\n');
 
-    return `import React from 'react';
+  return `import React from 'react';
 ${imports}
 
 // Professional Design System Styles
 const styles: Record<string, React.CSSProperties> = {
   // Base
   app: {
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+    fontFamily: "'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
     backgroundColor: '#ffffff',
-    color: '#1f2937',
+    color: '#283618',
     minHeight: '100vh',
     WebkitFontSmoothing: 'antialiased',
   },
@@ -421,30 +421,32 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '12px 24px',
+    padding: '16px 32px',
     fontSize: '16px',
     fontWeight: 600,
-    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+    background: 'linear-gradient(135deg, #d4a373 0%, #606c38 100%)',
     color: '#ffffff',
-    borderRadius: '12px',
+    borderRadius: '99px',
     textDecoration: 'none',
     transition: 'all 0.2s ease',
     border: 'none',
     cursor: 'pointer',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
   },
   btnSecondary: {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '12px 24px',
+    padding: '16px 32px',
     fontSize: '16px',
     fontWeight: 600,
-    background: '#ffffff',
-    color: '#1f2937',
-    borderRadius: '12px',
-    border: '2px solid #e5e7eb',
+    background: 'transparent',
+    color: '#283618',
+    borderRadius: '99px',
+    border: '2px solid #283618',
     textDecoration: 'none',
     cursor: 'pointer',
+    transition: 'all 0.2s ease',
   },
   btnLight: {
     display: 'inline-flex',
@@ -454,11 +456,12 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '16px',
     fontWeight: 600,
     background: '#ffffff',
-    color: '#6366f1',
-    borderRadius: '12px',
+    color: '#d4a373',
+    borderRadius: '99px',
     textDecoration: 'none',
     border: 'none',
     cursor: 'pointer',
+    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
   },
   btnOutlineLight: {
     display: 'inline-flex',
@@ -469,7 +472,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 600,
     background: 'transparent',
     color: '#ffffff',
-    borderRadius: '12px',
+    borderRadius: '99px',
     border: '2px solid rgba(255, 255, 255, 0.3)',
     textDecoration: 'none',
     cursor: 'pointer',
@@ -480,20 +483,21 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '16px 48px',
-    background: 'rgba(255, 255, 255, 0.95)',
-    backdropFilter: 'blur(12px)',
+    padding: '24px 48px',
+    background: 'rgba(255, 255, 255, 0.8)',
+    backdropFilter: 'blur(20px)',
     position: 'sticky' as const,
     top: 0,
     zIndex: 1000,
-    borderBottom: '1px solid #f3f4f6',
+    borderBottom: '1px solid rgba(40, 54, 24, 0.05)',
   },
   navBrand: {
     fontSize: '24px',
     fontWeight: 800,
-    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+    background: 'linear-gradient(135deg, #d4a373 0%, #606c38 100%)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
+    letterSpacing: '-0.02em',
   },
   navToggle: {
     display: 'none',
@@ -507,11 +511,11 @@ const styles: Record<string, React.CSSProperties> = {
   navToggleLine: {
     width: '24px',
     height: '2px',
-    background: '#1f2937',
+    background: '#283618',
   },
   navLinks: {
     display: 'flex',
-    gap: '32px',
+    gap: '40px',
     listStyle: 'none',
     margin: 0,
     padding: 0,
@@ -519,8 +523,10 @@ const styles: Record<string, React.CSSProperties> = {
   navLinksOpen: {},
   navLink: {
     fontWeight: 500,
-    color: '#4b5563',
+    color: '#606c38',
     textDecoration: 'none',
+    fontSize: '15px',
+    transition: 'color 0.2s',
   },
 
   // Hero
@@ -529,9 +535,9 @@ const styles: Record<string, React.CSSProperties> = {
     flexDirection: 'column' as const,
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '600px',
+    minHeight: '700px',
     padding: '80px 40px',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    background: '#fffdf5',
     textAlign: 'center' as const,
     position: 'relative' as const,
     overflow: 'hidden',
@@ -542,17 +548,20 @@ const styles: Record<string, React.CSSProperties> = {
     zIndex: 1,
   },
   heroTitle: {
-    fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+    fontSize: 'clamp(3rem, 6vw, 5rem)',
     fontWeight: 800,
     lineHeight: 1.1,
     marginBottom: '24px',
-    color: '#ffffff',
+    color: '#283618',
+    letterSpacing: '-0.03em',
   },
   heroSubtitle: {
-    fontSize: '20px',
+    fontSize: '22px',
     lineHeight: 1.7,
     marginBottom: '40px',
-    color: 'rgba(255, 255, 255, 0.9)',
+    color: '#606c38',
+    maxWidth: '600px',
+    margin: '0 auto 40px',
   },
   heroButtons: {
     display: 'flex',
@@ -565,56 +574,63 @@ const styles: Record<string, React.CSSProperties> = {
   card: {
     display: 'flex',
     flexDirection: 'column' as const,
-    width: '300px',
-    background: '#1a1a24',
-    borderRadius: '16px',
+    width: '320px',
+    background: '#ffffff',
+    borderRadius: '24px',
     overflow: 'hidden',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
+    border: '1px solid rgba(40, 54, 24, 0.08)',
     transition: 'all 0.3s ease',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)',
   },
   cardImage: {
-    height: '200px',
-    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+    height: '240px',
+    background: '#f5f2e8',
+    position: 'relative' as const,
   },
   cardContent: {
-    padding: '24px',
+    padding: '32px',
   },
   cardTitle: {
-    fontSize: '20px',
+    fontSize: '24px',
     fontWeight: 700,
     marginBottom: '12px',
-    color: '#ffffff',
+    color: '#283618',
   },
   cardDescription: {
-    fontSize: '14px',
-    color: '#9ca3af',
-    marginBottom: '16px',
+    fontSize: '16px',
+    color: '#606c38',
+    marginBottom: '24px',
     lineHeight: 1.7,
   },
   cardLink: {
-    fontSize: '14px',
+    fontSize: '15px',
     fontWeight: 600,
-    color: '#6366f1',
+    color: '#d4a373',
     textDecoration: 'none',
+    borderBottom: '2px solid #d4a373',
+    paddingBottom: '2px',
   },
 
   // Feature
   feature: {
     display: 'flex',
     flexDirection: 'column' as const,
-    alignItems: 'center',
-    textAlign: 'center' as const,
-    padding: '32px',
+    alignItems: 'flex-start',
+    textAlign: 'left' as const,
+    padding: '40px',
+    background: '#fffdf5',
+    borderRadius: '24px',
+    border: '1px solid transparent',
   },
   featureIcon: {
-    width: '64px',
-    height: '64px',
+    width: '56px',
+    height: '56px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+    background: '#f5f2e8',
     borderRadius: '16px',
-    color: '#ffffff',
+    color: '#283618',
     fontSize: '24px',
     marginBottom: '24px',
   },
@@ -622,29 +638,30 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '20px',
     fontWeight: 700,
     marginBottom: '12px',
-    color: '#ffffff',
+    color: '#283618',
   },
   featureDescription: {
     fontSize: '16px',
-    color: '#9ca3af',
+    color: '#606c38',
     lineHeight: 1.7,
   },
 
   // Testimonial
   testimonial: {
-    padding: '32px',
-    background: '#1a1a24',
-    borderRadius: '16px',
-    borderLeft: '4px solid #6366f1',
-    position: 'relative' as const,
+    padding: '48px',
+    background: '#ffffff',
+    borderRadius: '24px',
+    border: '1px solid rgba(40, 54, 24, 0.08)',
+    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)',
     margin: 0,
   },
   testimonialText: {
-    fontSize: '18px',
+    fontSize: '24px',
     fontStyle: 'italic',
-    color: '#e5e7eb',
-    lineHeight: 1.8,
-    marginBottom: '24px',
+    color: '#283618',
+    lineHeight: 1.6,
+    marginBottom: '32px',
+    fontWeight: 300,
   },
   testimonialAuthor: {
     display: 'flex',
@@ -656,18 +673,18 @@ const styles: Record<string, React.CSSProperties> = {
     height: '56px',
     borderRadius: '50%',
     objectFit: 'cover' as const,
-    border: '3px solid #6366f1',
+    border: '3px solid #e9edc9',
   },
   authorName: {
     display: 'block',
     fontStyle: 'normal',
     fontWeight: 600,
     fontSize: '16px',
-    color: '#ffffff',
+    color: '#283618',
   },
   authorRole: {
     fontSize: '14px',
-    color: '#9ca3af',
+    color: '#bc6c25',
   },
 
   // Pricing
@@ -676,11 +693,12 @@ const styles: Record<string, React.CSSProperties> = {
     flexDirection: 'column' as const,
     alignItems: 'center',
     width: '320px',
-    padding: '40px 32px',
-    background: '#1a1a24',
-    borderRadius: '20px',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
+    padding: '48px',
+    background: '#ffffff',
+    borderRadius: '24px',
+    border: '1px solid rgba(40, 54, 24, 0.08)',
     transition: 'all 0.3s ease',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)',
   },
   pricingHeader: {
     textAlign: 'center' as const,
@@ -689,12 +707,12 @@ const styles: Record<string, React.CSSProperties> = {
   pricingName: {
     fontSize: '24px',
     fontWeight: 700,
-    color: '#ffffff',
+    color: '#606c38',
     marginBottom: '8px',
   },
   pricingTagline: {
     fontSize: '14px',
-    color: '#9ca3af',
+    color: '#bc6c25',
     margin: 0,
   },
   pricingPrice: {
@@ -704,20 +722,18 @@ const styles: Record<string, React.CSSProperties> = {
   priceCurrency: {
     fontSize: '24px',
     fontWeight: 600,
-    color: '#6366f1',
+    color: '#283618',
     verticalAlign: 'top',
   },
   priceAmount: {
-    fontSize: '60px',
+    fontSize: '64px',
     fontWeight: 800,
     lineHeight: 1,
-    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
+    color: '#d4a373',
   },
   pricePeriod: {
     fontSize: '16px',
-    color: '#9ca3af',
+    color: '#606c38',
   },
   pricingFeatures: {
     width: '100%',
@@ -729,20 +745,21 @@ const styles: Record<string, React.CSSProperties> = {
   pricingFeatureItem: {
     padding: '12px 0',
     fontSize: '16px',
-    color: '#d1d5db',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+    color: '#606c38',
+    borderBottom: '1px solid #f3f4f6',
   },
   pricingCta: {
     display: 'block',
     width: '100%',
-    padding: '16px',
+    padding: '18px',
     textAlign: 'center' as const,
     fontWeight: 600,
     fontSize: '16px',
     color: '#ffffff',
-    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+    background: '#283618',
     borderRadius: '12px',
     textDecoration: 'none',
+    transition: 'opacity 0.2s',
   },
 
   // CTA
@@ -750,8 +767,8 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '80px 40px',
-    background: '#6366f1',
+    padding: '100px 40px',
+    background: '#283618',
     position: 'relative' as const,
     overflow: 'hidden',
   },
@@ -762,15 +779,15 @@ const styles: Record<string, React.CSSProperties> = {
     zIndex: 1,
   },
   ctaTitle: {
-    fontSize: 'clamp(2rem, 4vw, 3rem)',
+    fontSize: 'clamp(2.5rem, 5vw, 4rem)',
     fontWeight: 800,
-    marginBottom: '16px',
-    color: '#ffffff',
+    marginBottom: '24px',
+    color: '#f5f2e8',  // Cream text
   },
   ctaDescription: {
-    fontSize: '18px',
-    marginBottom: '32px',
-    color: 'rgba(255, 255, 255, 0.9)',
+    fontSize: '20px',
+    marginBottom: '40px',
+    color: '#e9edc9',  // Sage text
   },
   ctaButtons: {
     display: 'flex',
@@ -781,24 +798,70 @@ const styles: Record<string, React.CSSProperties> = {
 
   // Footer
   footer: {
-    padding: '60px 40px 40px',
-    background: '#0f0f13',
-    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+    padding: '80px 40px 40px',
+    background: '#f5f2e8',
+    borderTop: '1px solid rgba(40, 54, 24, 0.05)',
   },
   footerGrid: {
     display: 'grid',
     gridTemplateColumns: '2fr repeat(3, 1fr)',
     gap: '48px',
-    marginBottom: '48px',
+    marginBottom: '64px',
   },
   footerBrand: {},
   footerBrandTitle: {
     fontSize: '24px',
     fontWeight: 800,
     marginBottom: '16px',
-    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
+    color: '#283618',
+  },
+  footerBrandText: {
+    color: '#606c38',
+    lineHeight: 1.6,
+  },
+  footerLinks: {},
+  footerLinksTitle: {
+    fontSize: '14px',
+    fontWeight: 700,
+    textTransform: 'uppercase' as const,
+    letterSpacing: '0.05em',
+    color: '#283618',
+    marginBottom: '24px',
+  },
+  footerLink: {
+    color: '#606c38',
+    textDecoration: 'none',
+    marginBottom: '12px',
+    display: 'block',
+    transition: 'color 0.2s',
+  },
+  footerBottom: {
+    paddingTop: '32px',
+    borderTop: '1px solid rgba(40, 54, 24, 0.05)',
+    textAlign: 'center' as const,
+    color: '#bc6c25',
+    fontSize: '14px',
+  },
+  
+  // Gallery
+  gallery: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+    gap: '24px',
+  },
+  galleryItem: {
+    aspectRatio: '1',
+    background: '#f5f2e8',
+    borderRadius: '16px',
+    overflow: 'hidden',
+  },
+  galleryImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover' as const,
+    transition: 'transform 0.5s ease',
+  }
+};    WebkitTextFillColor: 'transparent',
   },
   footerBrandText: {
     color: '#9ca3af',

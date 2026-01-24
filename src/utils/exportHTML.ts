@@ -2,63 +2,63 @@ import { BuilderElement, ElementStyles } from '../types';
 
 // Convert camelCase to kebab-case
 const camelToKebab = (str: string): string => {
-    return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+  return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 };
 
 // Convert styles object to CSS string
 const stylesToCSS = (styles: ElementStyles): string => {
-    return Object.entries(styles)
-        .filter(([_, value]) => value !== undefined && value !== '')
-        .map(([key, value]) => `  ${camelToKebab(key)}: ${value};`)
-        .join('\n');
+  return Object.entries(styles)
+    .filter(([_, value]) => value !== undefined && value !== '')
+    .map(([key, value]) => `  ${camelToKebab(key)}: ${value};`)
+    .join('\n');
 };
 
 // Generate unique class name
 const generateClassName = (element: BuilderElement): string => {
-    return `wc-${element.type}-${element.id.slice(0, 8)}`;
+  return `wc-${element.type}-${element.id.slice(0, 8)}`;
 };
 
 // Generate HTML for an element
 const elementToHTML = (element: BuilderElement, indent: number = 2): string => {
-    const spaces = ' '.repeat(indent);
-    const className = generateClassName(element);
+  const spaces = ' '.repeat(indent);
+  const className = generateClassName(element);
 
-    switch (element.type) {
-        case 'heading':
-            return `${spaces}<h2 class="${className}">${element.content || 'Heading'}</h2>`;
+  switch (element.type) {
+    case 'heading':
+      return `${spaces}<h2 class="${className}">${element.content || 'Heading'}</h2>`;
 
-        case 'text':
-            return `${spaces}<p class="${className}">${element.content || 'Text content'}</p>`;
+    case 'text':
+      return `${spaces}<p class="${className}">${element.content || 'Text content'}</p>`;
 
-        case 'button':
-            return `${spaces}<button class="${className}">${element.content || 'Button'}</button>`;
+    case 'button':
+      return `${spaces}<button class="${className}">${element.content || 'Button'}</button>`;
 
-        case 'image':
-            return `${spaces}<img class="${className}" src="${element.src || 'https://images.unsplash.com/photo-1557683316-973673baf926?w=800'}" alt="${element.name}" loading="lazy" />`;
+    case 'image':
+      return `${spaces}<img class="${className}" src="${element.src || 'https://images.unsplash.com/photo-1557683316-973673baf926?w=800'}" alt="${element.name}" loading="lazy" />`;
 
-        case 'link':
-            return `${spaces}<a class="${className}" href="${element.href || '#'}">${element.content || 'Link'}</a>`;
+    case 'link':
+      return `${spaces}<a class="${className}" href="${element.href || '#'}">${element.content || 'Link'}</a>`;
 
-        case 'divider':
-            return `${spaces}<hr class="${className}" />`;
+    case 'divider':
+      return `${spaces}<hr class="${className}" />`;
 
-        case 'spacer':
-            return `${spaces}<div class="${className}" aria-hidden="true"></div>`;
+    case 'spacer':
+      return `${spaces}<div class="${className}" aria-hidden="true"></div>`;
 
-        case 'video':
-            return `${spaces}<video class="${className}" src="${element.src || ''}" controls></video>`;
+    case 'video':
+      return `${spaces}<video class="${className}" src="${element.src || ''}" controls></video>`;
 
-        case 'embed':
-            return `${spaces}<iframe class="${className}" src="${element.src || ''}" title="${element.name}" loading="lazy"></iframe>`;
+    case 'embed':
+      return `${spaces}<iframe class="${className}" src="${element.src || ''}" title="${element.name}" loading="lazy"></iframe>`;
 
-        case 'input':
-            return `${spaces}<input class="${className}" type="text" placeholder="${element.placeholder || 'Enter text...'}" />`;
+    case 'input':
+      return `${spaces}<input class="${className}" type="text" placeholder="${element.placeholder || 'Enter text...'}" />`;
 
-        case 'textarea':
-            return `${spaces}<textarea class="${className}" placeholder="${element.placeholder || 'Enter text...'}" rows="4"></textarea>`;
+    case 'textarea':
+      return `${spaces}<textarea class="${className}" placeholder="${element.placeholder || 'Enter text...'}" rows="4"></textarea>`;
 
-        case 'navbar':
-            return `${spaces}<nav class="${className}">
+    case 'navbar':
+      return `${spaces}<nav class="${className}">
 ${spaces}  <div class="nav-brand">${element.content || 'Brand'}</div>
 ${spaces}  <button class="nav-toggle" aria-label="Toggle menu">
 ${spaces}    <span></span><span></span><span></span>
@@ -71,8 +71,8 @@ ${spaces}    <li><a href="#">Contact</a></li>
 ${spaces}  </ul>
 ${spaces}</nav>`;
 
-        case 'hero':
-            return `${spaces}<section class="${className}">
+    case 'hero':
+      return `${spaces}<section class="${className}">
 ${spaces}  <div class="hero-content">
 ${spaces}    <h1 class="hero-title">${element.content || 'Welcome to Your Website'}</h1>
 ${spaces}    <p class="hero-subtitle">Create stunning experiences with our professional solutions</p>
@@ -83,8 +83,8 @@ ${spaces}    </div>
 ${spaces}  </div>
 ${spaces}</section>`;
 
-        case 'card':
-            return `${spaces}<article class="${className}">
+    case 'card':
+      return `${spaces}<article class="${className}">
 ${spaces}  <div class="card-image"></div>
 ${spaces}  <div class="card-content">
 ${spaces}    <h3 class="card-title">${element.content || 'Card Title'}</h3>
@@ -93,8 +93,8 @@ ${spaces}    <a href="#" class="card-link">Learn more →</a>
 ${spaces}  </div>
 ${spaces}</article>`;
 
-        case 'feature':
-            return `${spaces}<div class="${className}">
+    case 'feature':
+      return `${spaces}<div class="${className}">
 ${spaces}  <div class="feature-icon">
 ${spaces}    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 ${spaces}      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
@@ -104,8 +104,8 @@ ${spaces}  <h3 class="feature-title">${element.content || 'Feature Title'}</h3>
 ${spaces}  <p class="feature-description">Discover the power of innovation with our cutting-edge solutions.</p>
 ${spaces}</div>`;
 
-        case 'testimonial':
-            return `${spaces}<blockquote class="${className}">
+    case 'testimonial':
+      return `${spaces}<blockquote class="${className}">
 ${spaces}  <p class="testimonial-text">${element.content || '"This product completely transformed our business. Highly recommended!"'}</p>
 ${spaces}  <footer class="testimonial-author">
 ${spaces}    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Author" class="author-avatar" />
@@ -116,8 +116,8 @@ ${spaces}    </div>
 ${spaces}  </footer>
 ${spaces}</blockquote>`;
 
-        case 'pricing':
-            return `${spaces}<div class="${className}">
+    case 'pricing':
+      return `${spaces}<div class="${className}">
 ${spaces}  <div class="pricing-header">
 ${spaces}    <h3 class="pricing-name">${element.content || 'Professional'}</h3>
 ${spaces}    <p class="pricing-tagline">Best for growing businesses</p>
@@ -137,8 +137,8 @@ ${spaces}  </ul>
 ${spaces}  <a href="#" class="pricing-cta">Get Started</a>
 ${spaces}</div>`;
 
-        case 'cta':
-            return `${spaces}<section class="${className}">
+    case 'cta':
+      return `${spaces}<section class="${className}">
 ${spaces}  <div class="cta-content">
 ${spaces}    <h2 class="cta-title">${element.content || 'Ready to Transform Your Business?'}</h2>
 ${spaces}    <p class="cta-description">Join thousands of companies already using our platform to accelerate growth.</p>
@@ -149,8 +149,8 @@ ${spaces}    </div>
 ${spaces}  </div>
 ${spaces}</section>`;
 
-        case 'footer':
-            return `${spaces}<footer class="${className}">
+    case 'footer':
+      return `${spaces}<footer class="${className}">
 ${spaces}  <div class="footer-grid">
 ${spaces}    <div class="footer-brand">
 ${spaces}      <h4>${element.content?.split('©')[0]?.trim() || 'Brand'}</h4>
@@ -191,67 +191,67 @@ ${spaces}    <p>${element.content || '© 2024 Your Company. All rights reserved.
 ${spaces}  </div>
 ${spaces}</footer>`;
 
-        case 'gallery':
-            return `${spaces}<div class="${className}">
+    case 'gallery':
+      return `${spaces}<div class="${className}">
 ${spaces}  <div class="gallery-item"><img src="https://images.unsplash.com/photo-1557683316-973673baf926?w=400" alt="Gallery 1" loading="lazy" /></div>
 ${spaces}  <div class="gallery-item"><img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400" alt="Gallery 2" loading="lazy" /></div>
 ${spaces}  <div class="gallery-item"><img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=400" alt="Gallery 3" loading="lazy" /></div>
 ${spaces}</div>`;
 
-        case 'scene3d':
-            return `${spaces}<div class="${className}">
+    case 'scene3d':
+      return `${spaces}<div class="${className}">
 ${spaces}  <!-- 3D Scene - Requires Three.js -->
 ${spaces}  <canvas id="scene-${element.id.slice(0, 8)}"></canvas>
 ${spaces}</div>`;
 
-        case 'container':
-        case 'section':
-        case 'flexbox':
-        case 'grid':
-        case 'form': {
-            const tag = element.type === 'section' ? 'section' :
-                element.type === 'form' ? 'form' : 'div';
-            const childrenHTML = element.children
-                .map(child => elementToHTML(child, indent + 2))
-                .join('\n');
+    case 'container':
+    case 'section':
+    case 'flexbox':
+    case 'grid':
+    case 'form': {
+      const tag = element.type === 'section' ? 'section' :
+        element.type === 'form' ? 'form' : 'div';
+      const childrenHTML = element.children
+        .map(child => elementToHTML(child, indent + 2))
+        .join('\n');
 
-            if (childrenHTML) {
-                return `${spaces}<${tag} class="${className}">
+      if (childrenHTML) {
+        return `${spaces}<${tag} class="${className}">
 ${childrenHTML}
 ${spaces}</${tag}>`;
-            }
-            return `${spaces}<${tag} class="${className}"></${tag}>`;
-        }
-
-        default:
-            return `${spaces}<div class="${className}">${element.type}</div>`;
+      }
+      return `${spaces}<${tag} class="${className}"></${tag}>`;
     }
+
+    default:
+      return `${spaces}<div class="${className}">${element.type}</div>`;
+  }
 };
 
 // Generate CSS for an element
 const elementToCSS = (element: BuilderElement): string => {
-    const className = generateClassName(element);
-    const cssRules: string[] = [];
+  const className = generateClassName(element);
+  const cssRules: string[] = [];
 
-    const styleContent = stylesToCSS(element.styles);
-    if (styleContent) {
-        cssRules.push(`.${className} {\n${styleContent}\n}`);
-    }
+  const styleContent = stylesToCSS(element.styles);
+  if (styleContent) {
+    cssRules.push(`.${className} {\n${styleContent}\n}`);
+  }
 
-    // Recursively get children CSS
-    element.children.forEach(child => {
-        cssRules.push(elementToCSS(child));
-    });
+  // Recursively get children CSS
+  element.children.forEach(child => {
+    cssRules.push(elementToCSS(child));
+  });
 
-    return cssRules.filter(Boolean).join('\n\n');
+  return cssRules.filter(Boolean).join('\n\n');
 };
 
 export const generateHTMLExport = (elements: BuilderElement[]): string => {
-    const bodyContent = elements
-        .map(element => elementToHTML(element))
-        .join('\n');
+  const bodyContent = elements
+    .map(element => elementToHTML(element))
+    .join('\n');
 
-    return `<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -301,7 +301,7 @@ ${bodyContent || '  <!-- Add your content here -->'}
 };
 
 export const generateCSSExport = (elements: BuilderElement[]): string => {
-    const professionalCSS = `/* ============================================
+  const professionalCSS = `/* ============================================
    PROFESSIONAL WEBSITE STYLES
    Generated by WebCraft Studio
    ============================================ */
@@ -310,12 +310,17 @@ export const generateCSSExport = (elements: BuilderElement[]): string => {
    CSS CUSTOM PROPERTIES (Design Tokens)
    ========================================== */
 :root {
-  /* Colors */
-  --color-primary: #6366f1;
-  --color-primary-dark: #4f46e5;
-  --color-primary-light: #818cf8;
-  --color-secondary: #8b5cf6;
-  --color-accent: #06b6d4;
+  /* Colors - Cream & Gold Theme */
+  --color-primary: #d4a373;      /* Elegant Gold */
+  --color-primary-dark: #b08968;
+  --color-primary-light: #e9edc9; /* Sage */
+  --color-secondary: #606c38;     /* Dark Sage */
+  --color-accent: #bc6c25;        /* Earthy Orange */
+  
+  /* Backgrounds */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #fffdf5;  /* Cream */
+  --color-bg-tertiary: #f5f2e8;   /* Darker Cream */
   
   /* Neutral Colors */
   --color-white: #ffffff;
@@ -327,17 +332,12 @@ export const generateCSSExport = (elements: BuilderElement[]): string => {
   --color-gray-500: #6b7280;
   --color-gray-600: #4b5563;
   --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
+  --color-gray-800: #283618;      /* Dark Green for text */
+  --color-gray-900: #1a1a24;
   --color-black: #030712;
   
-  /* Semantic Colors */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  
   /* Typography */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -365,27 +365,27 @@ export const generateCSSExport = (elements: BuilderElement[]): string => {
   
   /* Border Radius */
   --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 2rem;
   --radius-full: 9999px;
   
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-sm: 0 1px 2px 0 rgba(40, 54, 24, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(40, 54, 24, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(40, 54, 24, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(40, 54, 24, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(40, 54, 24, 0.25);
   
   /* Transitions */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
   
   /* Container */
   --container-max: 1280px;
-  --container-padding: 1.5rem;
+  --container-padding: 2rem;
 }
 
 /* ==========================================
@@ -1112,10 +1112,10 @@ section.animate-in, article.animate-in, div[class*="wc-feature"].animate-in, div
   transform: translateY(0);
 }`;
 
-    const elementCSS = elements
-        .map(element => elementToCSS(element))
-        .filter(Boolean)
-        .join('\n\n');
+  const elementCSS = elements
+    .map(element => elementToCSS(element))
+    .filter(Boolean)
+    .join('\n\n');
 
-    return `${professionalCSS}\n\n/* ==========================================\n   CUSTOM ELEMENT STYLES\n   ========================================== */\n${elementCSS}`;
+  return `${professionalCSS}\n\n/* ==========================================\n   CUSTOM ELEMENT STYLES\n   ========================================== */\n${elementCSS}`;
 };
